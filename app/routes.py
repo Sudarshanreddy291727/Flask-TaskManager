@@ -31,9 +31,10 @@ def register():
         new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        flash('Account created for {}'.format(form.username.data), 'success')
-        return redirect(url_for('main.home'))
+        flash('Account created successfully! You can now log in.', 'success')
+        return redirect(url_for('main.login'))
     return render_template('register.html', form=form)
+
 
 @main.route('/logout')
 @login_required
