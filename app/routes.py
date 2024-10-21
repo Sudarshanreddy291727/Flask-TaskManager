@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for
+from flask import flash 
 from app.forms import LoginForm, RegistrationForm
 from app.models import db, User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,6 +10,7 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def home():
     return render_template('home.html')
+from flask import flash
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
@@ -34,6 +36,7 @@ def register():
         flash('Account created successfully! You can now log in.', 'success')
         return redirect(url_for('main.login'))
     return render_template('register.html', form=form)
+
 
 
 @main.route('/logout')
