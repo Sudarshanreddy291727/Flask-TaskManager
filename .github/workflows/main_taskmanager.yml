@@ -20,16 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m venv venv
-          echo "Created virtual environment"
-          ls -al  # List directory contents to confirm paths
-          source ./venv/bin/activate
-          echo "Activated virtual environment"
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run tests
         run: |
-          source ./venv/bin/activate
           pytest  # Replace with your specific test command
 
       - name: Deploy to Azure Web App
