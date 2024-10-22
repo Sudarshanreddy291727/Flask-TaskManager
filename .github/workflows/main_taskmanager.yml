@@ -1,4 +1,4 @@
-name: Flask Task Manager CI
+name: Deploy to Azure Web App
 
 on:
   push:
@@ -10,31 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Step 2: Set up Python
-      - name: Set up Python 3.9
+      - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.8'
 
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m venv venv
-          source venv/bin/activate
+          echo "Created virtual environment"
+          ls -al  # List directory contents to confirm paths
+          source ./venv/bin/activate
+          echo "Activated virtual environment"
           pip install -r requirements.txt
 
-      # Step 4: Run tests (optional)
       - name: Run tests
         run: |
-          source venv/bin/activate
-          pytest  # Replace this with your test command if necessary
+          source ./venv/bin/activate
+          pytest  # Replace with your specific test command
 
-      # Step 5: Deploy to Azure Web App
       - name: Deploy to Azure Web App
-        run: |
-          source venv/bin/activate
-          az webapp up --name FlaskManager --resource-group FlaskManager_group --location "South India"
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: TaskManager-BlogPost
+          slot-name: Production
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
